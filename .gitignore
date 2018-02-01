@@ -1,0 +1,16 @@
+[Bb]uild/
+
+# cmake
+CMakeCache.txt
+CMakeFiles
+CMakeScripts
+Testing
+Makefile
+cmake_install.cmake
+install_manifest.txt
+compile_commands.json
+CTestTestfile.cmake
+
+# intellij/clion
+.idea/workspace.xml
+.idea/tasks.xml

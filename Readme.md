@@ -1,5 +1,13 @@
 # CSE 389 Museum project
 
+## Update: February 14th, 2018
+
+The museum blender model can be found here: [MuseumModels/museumUpdated.blend](MuseumModels/museumUpdated.blend)
+
+![Museum Screenshot](MuseumModels/MuseumRender3.png)
+![Museum Screenshot](MuseumModels/MuseumRender2.png)
+![Museum Screenshot](MuseumModels/MuseumRender1.png)
+
 ## Update: February 2nd, 2018
 
 > Where are the screenshots?

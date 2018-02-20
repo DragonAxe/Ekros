@@ -2,8 +2,9 @@
 
 ## Update: February 14th, 2018
 
-The museum blender model can be found here: [MuseumModels/museumUpdated.blend](MuseumModels/museumUpdated.blend)
+The museum blender model can be found here: [MuseumModels/museum.blend](MuseumModels/museum.blend)
 
+![Museum Screenshot](MuseumModels/MuseumRender4.png)
 ![Museum Screenshot](MuseumModels/MuseumRender3.png)
 ![Museum Screenshot](MuseumModels/MuseumRender2.png)
 ![Museum Screenshot](MuseumModels/MuseumRender1.png)

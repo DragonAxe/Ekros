@@ -25,13 +25,13 @@ private:
     // Attributes
     std::string filename;
     GLuint vao = 0;
-    GLsizei vao_size = 0;
+    GLsizei vaoSize = 0;
     GLuint vbo = 0;
-    GLsizei vbo_size = 0;
+    GLsizei vboSize = 0;
 
-    // Create an instance of the Importer class
-    Assimp::Importer importer;
-    const aiScene* modelData = nullptr;
+    // Assimp attributes
+    float * vertices = nullptr;
+    GLsizei numVertices = 0;
 
 public:
     // Methods

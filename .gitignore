@@ -1,9 +1,10 @@
 [Bb]uild/
 
-cmake-build-debug/Ekros/
-cmake-build-debug/Glitter/Vendor/assimp/code/
-cmake-build-debug/Glitter/Vendor/bullet/src/
-cmake-build-debug/Glitter/Vendor/glfw/src/libglfw3.a
+cmake-build-debug
+#cmake-build-debug/Ekros/
+#cmake-build-debug/Glitter/Vendor/assimp/code/
+#cmake-build-debug/Glitter/Vendor/bullet/src/
+#cmake-build-debug/Glitter/Vendor/glfw/src/libglfw3.a
 
 # cmake
 CMakeCache.txt

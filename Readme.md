@@ -1,5 +1,13 @@
 # CSE 389 Museum project
 
+## Update: March 5th, 2018
+We have moved all the code pertaining to loading and rendering a model into a
+separate class, that way it will be easy to load and manage multiple objects
+all at once.
+
+The next step is to actually implement the model loader, rather than just
+rendering a couple of triangles.
+
 ## Update: February 14th, 2018
 
 The museum blender model can be found here: [MuseumModels/museum.blend](MuseumModels/museum.blend)

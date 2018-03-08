@@ -14,6 +14,14 @@ using the `glDrawArrays` command works, but rendering the vertices using indices
 via the `glDrawElements` command doesn't work and we haven't had time to investigate
 further.
 
+We have also finished texturing the surrounding objects in our museum set up.
+Below are some screen shots, and are not the final products. They will be touched up and tweaked over time.
+![Boxes](MuseumModels/boxy.png)
+![Pyramid](MuseumModels/Pyramid.png)
+![Torus knot](MuseumModels/Torus_knot.png)
+![Fence](MuseumModels/fency.png)
+![pointy mountain](MuseumModels/pointymount.png)
+
 ## Update: March 5th, 2018
 We have moved all the code pertaining to loading and rendering a model into a
 separate class, that way it will be easy to load and manage multiple objects

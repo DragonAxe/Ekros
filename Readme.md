@@ -1,5 +1,19 @@
 # CSE 389 Museum project
 
+## Update: March 7th, 2018
+We are currently working still working on the model loader in the
+[`model-loader-dev` branch](https://github.com/DragonAxe/Ekros/tree/model-loader-dev)
+
+We are using the `assimp` library for loading models, then converting from the assimp
+scene structure to two arrays, one for vertices and one for indices. The loading of
+the model from the obj file works, converting the assimp scene into the two arrays works,
+but there are problems with loading the model into the GPU and rendering it correctly.
+
+What we have been able to figure out so far is that rendering raw vertices as triangles
+using the `glDrawArrays` command works, but rendering the vertices using indices
+via the `glDrawElements` command doesn't work and we haven't had time to investigate
+further.
+
 ## Update: March 5th, 2018
 We have moved all the code pertaining to loading and rendering a model into a
 separate class, that way it will be easy to load and manage multiple objects

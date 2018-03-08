@@ -13,6 +13,44 @@ void processInput(GLFWwindow* window);
 const unsigned int SCR_WIDTH = 800;
 const unsigned int SCR_HEIGHT = 600;
 
+//const char *vertexShaderSource = "#version 150\n"
+//        "in vec4 vPosition;\n"
+//        "in vec4 vColor;\n"
+//        "out vec4 color;\n"
+//        "uniform vec3 theta;\n"
+//        "void main()\n"
+//        "{\n"
+//        "   //Compute the sines and cosines of theta for each of\n"
+//        "   //the three axes in one computation.\n"
+//        "   vec3 angles = radians(theta);\n"
+//        "   vec3 c = cos(angles);\n"
+//        "   vec3 s = sin(angles);\n"
+//        "   //Remember: these matrices are column major.\n"
+//        "   mat4 rx = mat4(1.0, 0.0, 0.0, 0.0,\n"
+//        "                  0.0, c.x, s.x, 0.0,\n"
+//        "                  0.0, -s.x, c.x, 0.0,\n"
+//        "                  0.0, 0.0, 0.0, 1.0);\n"
+//        "   mat4 ry = mat4(c.y, 0.0, -s.y, 0.0,\n"
+//        "                  0.0, 1.0, 0.0, 0.0,\n"
+//        "                  s.y, 0.0, c.y, 0.0,\n"
+//        "                  0.0, 0.0, 0.0, 1.0);\n"
+//        "   mat4 rz = mat4(c.z, -s.z, 0.0, 0.0,\n"
+//        "                  s.z, c.z, 0.0, 0.0,\n"
+//        "                  0.0, 0.0, 1.0, 0.0,\n"
+//        "                  0.0, 0.0, 0.0, 1.0);\n"
+//        "   color = vColor;\n"
+//        "   gl_Position = rz * ry * rx * vPosition;\n"
+//        "}\0";
+//
+//const char *fragmentShaderSource = "#version 150\n"
+//        "in vec4 color;\n"
+//        "out vec4 fColor;\n"
+//        "void main()\n"
+//        "{\n"
+//        "   fColor = color;\n"
+//        "}\n\0";
+
+
 const char *vertexShaderSource = "#version 330 core\n"
         "layout (location = 0) in vec3 aPos;\n"
         "void main()\n"
@@ -97,7 +135,7 @@ int main()
     glDeleteShader(fragmentShader);
 
     // Load a new model from .obj file
-    Emodel* triangles = new Emodel("MuseumModels/objs/test_cube.obj");
+    Emodel* triangles = new Emodel("MuseumModels/objs/test_triangle.obj");
 
     // uncomment this call to draw in wireframe polygons.
     // glPolygonMode(GL_FRONT_AND_BACK, GL_LINE);

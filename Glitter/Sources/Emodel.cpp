@@ -51,49 +51,73 @@ bool Emodel::loadFromObj()
     // on how to load the Assimp data into a format OpenGL can understand.
 
 
-    // **** Transfer vertex data to RAM ****
-    numVertices = model_data->mMeshes[0]->mNumVertices;
-    vertices = (float *) malloc(sizeof(float) * numVertices);
-    memcpy(vertices, model_data->mMeshes[0]->mVertices, sizeof(float) * numVertices);
-    for (unsigned int i = 0; i < numVertices; i++) {
-        std::cout << vertices[i] << ",";
+    aiMesh* mesh = model_data->mMeshes[0];
+
+    verts = new std::vector<float>();
+//    mNumVerticies = mesh->mNumVertices;
+//    for (unsigned int i = 0; i < mNumVerticies; i++) {
+//        verts->push_back(mesh->mVertices[i].x);
+//        verts->push_back(mesh->mVertices[i+1].y);
+//        verts->push_back(mesh->mVertices[i+2].z);
+//    }
+    mNumVerticies = 3;
+    verts->push_back(-0.5);
+    verts->push_back(0.5);
+    verts->push_back(0);
+    verts->push_back(-0.5);
+    verts->push_back(-0.5);
+    verts->push_back(0);
+    verts->push_back(0.5);
+    verts->push_back(0.5);
+    verts->push_back(0);
+    std::cout << "Verts: ";
+    std::cout << "size=" << verts->size() << " vNum=" << mNumVerticies << " " << std::endl;
+    for (unsigned int i = 0; i < verts->size(); i++) {
+        std::cout << verts->data()[i] << ",";
     }
     std::cout << std::endl;
 
 
-    // **** Transfer face data to RAM ****
-    // For each mesh in the aiScene object
-    for (unsigned int n = 0; n < model_data->mNumMeshes; ++n) {
-        std::cout << "Mesh id: " << n << std::endl;
 
-        // Get the current aiMesh object.
-        const aiMesh *mesh = model_data->mMeshes[n];
+    std::vector<float> colors = std::vector<float>();
 
-        // Create a one dimensional array to store face indices
-        GLsizei numFaces;
-        unsigned int *faceArray = nullptr;
-        faceArray = (unsigned int *) malloc(sizeof(unsigned int) * mesh->mNumFaces * 3);
-        unsigned int faceIndex = 0;
 
-        // Copy face indices from aiMesh to faceArray.
-        // In an aiMesh object, face indices are stored in two layers. There is an array of aiFace, and then each aiFace stores 3 indices.
-        // Must copy face indices to a one dimensional array so that it can be used in OpenGL functions.
-        for (unsigned int t = 0; t < mesh->mNumFaces; ++t) {
-            const aiFace *face = &mesh->mFaces[t];  // Go through the list of aiFace
-
-            // For each aiFace, copy its indices to faceArray.
-            memcpy(&faceArray[faceIndex], face->mIndices, 3 * sizeof(unsigned int));
-            faceIndex += 3;
-        }
-        numFaces = mesh->mNumFaces; // Record the number of faces.
-
-        for (unsigned int i = 0; i < numFaces; i += 3) {
-            std::cout << faceArray[i] << "," << faceArray[i+1] << "," << faceArray[i+1] << std::endl;
-        }
+    faces = new std::vector<unsigned int>();
+//    mNumFaces = mesh->mNumFaces;
+//    for (unsigned int i = 0; i < mesh->mNumFaces; i++) {
+//        aiFace* face = &(mesh->mFaces[i]);
+//        faces->push_back(face->mIndices[0]);
+//        faces->push_back(face->mIndices[1]);
+//        faces->push_back(face->mIndices[2]);
+//    }
+    mNumFaces = 1;
+    faces->push_back(0);
+    faces->push_back(1);
+    faces->push_back(2);
+    std::cout << "Faces: ";
+    std::cout << "size=" << faces->size() << " vNum=" << mNumFaces << " " << std::endl;
+    for (unsigned int i = 0; i < faces->size(); i++) {
+        std::cout << faces->data()[i] << ",";
     }
+    std::cout << std::endl;
+
+
+
 
     return true;
 }
+
+/*
+ * We need
+ * vert list
+ * color list
+ * normal list
+ * index list
+ *
+ * 
+ * glBufferSubData(GL_ARRAY_BUFFER, 0, size, vert);
+ * glBufferSubData(GL_ARRAY_BUFFER, size, size, color);
+ */
 
 /**
  * Loads the Assimp imported mesh data into the GPU.
@@ -122,14 +146,14 @@ void Emodel::loadToGPU()
         glBindBuffer(GL_ARRAY_BUFFER, this->vbo);
         {
             // Load the vertices into the Vertex Buffered Object
-            glBufferData(GL_ARRAY_BUFFER, numVertices, this->vertices, GL_STATIC_DRAW);
+            glBufferData(GL_ARRAY_BUFFER, verts->size()*sizeof(float), verts->data(), GL_STATIC_DRAW);
 
             // Set the attributes of the loaded buffer data
             const GLuint index = 0;
             const GLint size = 3;
             const GLenum type = GL_FLOAT;
             const GLboolean normalized = GL_FALSE;
-            const GLsizei stride = 3 * sizeof(float);
+            const GLsizei stride = 0; //3 * sizeof(float);
             const GLvoid * pointer = (void*)0;
             glVertexAttribPointer(index, size, type, normalized, stride, pointer);
 
@@ -138,6 +162,16 @@ void Emodel::loadToGPU()
             glEnableVertexAttribArray(0);
         }
         glBindBuffer(GL_ARRAY_BUFFER, 0);
+
+        glGenBuffers(1, &indexVBO);
+
+        glBindBuffer(GL_ELEMENT_ARRAY_BUFFER, indexVBO);
+        {
+            glBufferData(GL_ARRAY_BUFFER, faces->size() * sizeof(unsigned int), faces->data(), GL_STATIC_DRAW);
+
+
+        }
+        glBindBuffer(GL_ELEMENT_ARRAY_BUFFER, 0);
     }
     glBindVertexArray(0);
 }
@@ -153,7 +187,9 @@ void Emodel::draw(GLuint shaderProgram)
     // draw our first triangle
     glUseProgram(shaderProgram);
     glBindVertexArray(this->vao); // seeing as we only have a single VAO there's no need to bind it every time, but we'll do so to keep things a bit more organized
-    glDrawArrays(GL_TRIANGLES, 0, numVertices);
+    glDrawArrays(GL_TRIANGLES, 0, mNumVerticies);
+//    glBindBuffer(GL_ELEMENT_ARRAY_BUFFER, indexVBO);
+//    glDrawElements(GL_TRIANGLES, 3, GL_UNSIGNED_INT, (void*)0);
     // glBindVertexArray(0); // no need to unbind it every time
 }
 
@@ -166,5 +202,8 @@ Emodel::~Emodel()
     // ------------------------------------------------------------------------
     glDeleteVertexArrays(this->vaoSize, &this->vao);
     glDeleteBuffers(this->vboSize, &this->vbo);
+
+    delete verts;
+    delete faces;
 }
 

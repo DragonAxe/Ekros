@@ -1,6 +1,7 @@
 #pragma once
 
 #include <iostream>
+#include <vector>
 
 #include <assimp/Importer.hpp>      // C++ importer interface
 #include <assimp/scene.h>           // Output data structure
@@ -28,10 +29,13 @@ private:
     GLsizei vaoSize = 0;
     GLuint vbo = 0;
     GLsizei vboSize = 0;
+    GLuint indexVBO;
 
     // Assimp attributes
-    float * vertices = nullptr;
-    GLsizei numVertices = 0;
+    std::vector<float> * verts;
+    unsigned int mNumVerticies;
+    std::vector<unsigned int> * faces;
+    unsigned int mNumFaces;
 
 public:
     // Methods

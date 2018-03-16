@@ -51,49 +51,52 @@ bool Emodel::loadFromObj()
     // on how to load the Assimp data into a format OpenGL can understand.
 
 
-    aiMesh* mesh = model_data->mMeshes[0];
 
     verts = new std::vector<float>();
-//    mNumVerticies = mesh->mNumVertices;
-//    for (unsigned int i = 0; i < mNumVerticies; i++) {
-//        verts->push_back(mesh->mVertices[i].x);
-//        verts->push_back(mesh->mVertices[i+1].y);
-//        verts->push_back(mesh->mVertices[i+2].z);
-//    }
-    mNumVerticies = 3;
-    verts->push_back(-0.5);
-    verts->push_back(0.5);
-    verts->push_back(0);
-    verts->push_back(-0.5);
-    verts->push_back(-0.5);
-    verts->push_back(0);
-    verts->push_back(0.5);
-    verts->push_back(0.5);
-    verts->push_back(0);
+    faces = new std::vector<unsigned int>();
+    mNumVerticies = 0;
+    mNumFaces = 0;
+
+
+    printf("Mesh count=%d\n", model_data->mNumMeshes);
+
+    // Assimp separates each group of faces that use the same material
+    // into different meshes. This loop combines them into a single
+    // flat array for vertices and indices (faces).
+    for (unsigned int mesh_index = 0; mesh_index < model_data->mNumMeshes; mesh_index++) {
+        aiMesh* mesh = model_data->mMeshes[mesh_index];
+
+        // Add the x,y,z of each vertex to a flat array
+        for (unsigned int i = 0; i < mesh->mNumVertices; i++) {
+            verts->push_back(mesh->mVertices[i].x);
+            verts->push_back(mesh->mVertices[i].y);
+            verts->push_back(mesh->mVertices[i].z);
+        }
+
+        // Add the indices of each face (made up of 3 vertices because it's a triangle)) to a flat array
+        for (unsigned int i = 0; i < mesh->mNumFaces; i++) {
+            aiFace* face = &(mesh->mFaces[i]);
+            // Each face index restarts at zero for each Assimp mesh,
+            // so we must add an offset of the number of vertices that
+            // have been added so far to our flat array.
+            faces->push_back(face->mIndices[0]+mNumVerticies);
+            faces->push_back(face->mIndices[1]+mNumVerticies);
+            faces->push_back(face->mIndices[2]+mNumVerticies);
+        }
+
+        mNumVerticies += mesh->mNumVertices;
+        mNumFaces += mesh->mNumFaces;
+    }
+
+    // Print out vertex statistics
     std::cout << "Verts: ";
-    std::cout << "size=" << verts->size() << " vNum=" << mNumVerticies << " " << std::endl;
+    std::cout << "size=" << verts->size() << " fNum=" << mNumVerticies << " " << std::endl;
     for (unsigned int i = 0; i < verts->size(); i++) {
         std::cout << verts->data()[i] << ",";
     }
     std::cout << std::endl;
 
-
-
-    std::vector<float> colors = std::vector<float>();
-
-
-    faces = new std::vector<unsigned int>();
-//    mNumFaces = mesh->mNumFaces;
-//    for (unsigned int i = 0; i < mesh->mNumFaces; i++) {
-//        aiFace* face = &(mesh->mFaces[i]);
-//        faces->push_back(face->mIndices[0]);
-//        faces->push_back(face->mIndices[1]);
-//        faces->push_back(face->mIndices[2]);
-//    }
-    mNumFaces = 1;
-    faces->push_back(0);
-    faces->push_back(1);
-    faces->push_back(2);
+    // Print out face statistics
     std::cout << "Faces: ";
     std::cout << "size=" << faces->size() << " vNum=" << mNumFaces << " " << std::endl;
     for (unsigned int i = 0; i < faces->size(); i++) {
@@ -101,10 +104,7 @@ bool Emodel::loadFromObj()
     }
     std::cout << std::endl;
 
-
-
-
-    return true;
+    return true; // Success
 }
 
 /*
@@ -142,36 +142,26 @@ void Emodel::loadToGPU()
         // Generate a Vertex Buffered Object, then bind it for editing
         this->vboSize = 1;
         glGenBuffers(this->vboSize, &this->vbo);
-
-        glBindBuffer(GL_ARRAY_BUFFER, this->vbo);
-        {
-            // Load the vertices into the Vertex Buffered Object
-            glBufferData(GL_ARRAY_BUFFER, verts->size()*sizeof(float), verts->data(), GL_STATIC_DRAW);
-
-            // Set the attributes of the loaded buffer data
-            const GLuint index = 0;
-            const GLint size = 3;
-            const GLenum type = GL_FLOAT;
-            const GLboolean normalized = GL_FALSE;
-            const GLsizei stride = 0; //3 * sizeof(float);
-            const GLvoid * pointer = (void*)0;
-            glVertexAttribPointer(index, size, type, normalized, stride, pointer);
-
-            // Enable the attributes we just set for this Vertex Buffered Object
-            // ???? I think this is what this is doing, need to ask Amy ????
-            glEnableVertexAttribArray(0);
-        }
-        glBindBuffer(GL_ARRAY_BUFFER, 0);
-
         glGenBuffers(1, &indexVBO);
 
+        // We can bind the buffers all at once
+        glBindBuffer(GL_ARRAY_BUFFER, this->vbo);
         glBindBuffer(GL_ELEMENT_ARRAY_BUFFER, indexVBO);
-        {
-            glBufferData(GL_ARRAY_BUFFER, faces->size() * sizeof(unsigned int), faces->data(), GL_STATIC_DRAW);
 
+        // Load the vertices into the Vertex Buffered Object
+        glBufferData(GL_ARRAY_BUFFER, (verts->size())*sizeof(float), verts->data(), GL_STATIC_DRAW);
+        glBufferData(GL_ELEMENT_ARRAY_BUFFER, faces->size() * sizeof(unsigned int), faces->data(), GL_STATIC_DRAW);
 
-        }
-        glBindBuffer(GL_ELEMENT_ARRAY_BUFFER, 0);
+        // Set the attributes of the loaded buffer data
+        glVertexAttribPointer(0,          // index in VAO to store this buffer
+                              3,          // size, number of values per vertex
+                              GL_FLOAT,   // type
+                              GL_FALSE,   // normalized
+                              0,          // stride
+                              (void *)0); // pointer to a value in the buffer
+
+        // Enable the attributes we just set for this Vertex Buffered Object
+        glEnableVertexAttribArray(0); // 0, the index we set above in glVertexAttribPointer
     }
     glBindVertexArray(0);
 }
@@ -186,10 +176,11 @@ void Emodel::draw(GLuint shaderProgram)
 {
     // draw our first triangle
     glUseProgram(shaderProgram);
-    glBindVertexArray(this->vao); // seeing as we only have a single VAO there's no need to bind it every time, but we'll do so to keep things a bit more organized
-    glDrawArrays(GL_TRIANGLES, 0, mNumVerticies);
-//    glBindBuffer(GL_ELEMENT_ARRAY_BUFFER, indexVBO);
-//    glDrawElements(GL_TRIANGLES, 3, GL_UNSIGNED_INT, (void*)0);
+    glBindVertexArray(this->vao);
+
+    // Render our model using indices instead of raw vertices
+    glDrawElements(GL_TRIANGLES, faces->size(), GL_UNSIGNED_INT, (void*)0);
+
     // glBindVertexArray(0); // no need to unbind it every time
 }
 

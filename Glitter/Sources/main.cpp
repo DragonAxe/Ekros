@@ -6,6 +6,21 @@
 
 #include <iostream>
 
+
+void MessageCallback( GLenum source,
+                      GLenum type,
+                      GLuint id,
+                      GLenum severity,
+                      GLsizei length,
+                      const GLchar* message,
+                      const void* userParam )
+{
+    fprintf( stderr, "GL CALLBACK: %s type = 0x%x, severity = 0x%x, message = %s\n",
+             ( type == GL_DEBUG_TYPE_ERROR ? "** GL ERROR **" : "" ),
+             type, severity, message );
+}
+
+
 void framebuffer_size_callback(GLFWwindow* window, int width, int height);
 void processInput(GLFWwindow* window);
 
@@ -94,6 +109,10 @@ int main()
         return -1;
     }
 
+    // During init, enable debug output
+    glEnable              ( GL_DEBUG_OUTPUT );
+    glDebugMessageCallback( (GLDEBUGPROC) MessageCallback, 0 );
+
     // build and compile our shader program
     // ------------------------------------
     // vertex shader
@@ -135,10 +154,10 @@ int main()
     glDeleteShader(fragmentShader);
 
     // Load a new model from .obj file
-    Emodel* triangles = new Emodel("MuseumModels/objs/test_triangle.obj");
+    Emodel* triangles = new Emodel("MuseumModels/objs/Pikachu.obj");
 
     // uncomment this call to draw in wireframe polygons.
-    // glPolygonMode(GL_FRONT_AND_BACK, GL_LINE);
+    glPolygonMode(GL_FRONT_AND_BACK, GL_LINE);
 
     // render loop
     // -----------

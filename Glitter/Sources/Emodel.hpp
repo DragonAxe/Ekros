@@ -17,7 +17,8 @@
  * To load a model, simply instanciate this class with the 'new' keyword.
  * You can 'delete' this class once you are done to free up GPU memory.
  */
-class Emodel {
+class Emodel
+{
 private:
     // Methods
     bool loadFromObj();
@@ -40,6 +41,6 @@ private:
 public:
     // Methods
     Emodel(std::string);
-    void draw(GLuint shaderProgram);
+    void draw();
     ~Emodel(); // Deconstructor
 };

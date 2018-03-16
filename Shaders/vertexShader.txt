@@ -1,0 +1,31 @@
+#version 150
+
+// Uniforms are user inputs
+uniform vec3 xyzrot;
+
+in vec3 position;
+
+out vec3 color;
+
+void main(void)
+{
+    vec3 angles = radians(xyzrot);
+    vec3 c = cos(angles);
+    vec3 s = sin(angles);
+    //Remember: these matrices are column major.
+    mat4 rx = mat4(1.0, 0.0, 0.0, 0.0,
+                   0.0, c.x, s.x, 0.0,
+                   0.0, -s.x, c.x, 0.0,
+                   0.0, 0.0, 0.0, 1.0);
+    mat4 ry = mat4(c.y, 0.0, -s.y, 0.0,
+                   0.0, 1.0, 0.0, 0.0,
+                   s.y, 0.0, c.y, 0.0,
+                   0.0, 0.0, 0.0, 1.0);
+    mat4 rz = mat4(c.z, -s.z, 0.0, 0.0,
+                   s.z, c.z, 0.0, 0.0,
+                   0.0, 0.0, 1.0, 0.0,
+                   0.0, 0.0, 0.0, 1.0);
+
+	gl_Position = rz * ry * rx * vec4(position,1.0);
+	color = vec3(position.x+0.5, position.z+0.5, position.y+0.5);
+}

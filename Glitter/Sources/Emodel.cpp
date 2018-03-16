@@ -172,10 +172,9 @@ void Emodel::loadToGPU()
  * Note: If nothing is rendering, double check that 'loadFromObj' and 'loadToGPU'
  * methods have been called before calling draw.
  */
-void Emodel::draw(GLuint shaderProgram)
+void Emodel::draw()
 {
     // draw our first triangle
-    glUseProgram(shaderProgram);
     glBindVertexArray(this->vao);
 
     // Render our model using indices instead of raw vertices

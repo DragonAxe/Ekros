@@ -43,7 +43,7 @@ GLFWwindow* DisplayManager::initializeGLFWwindow()
     }
     glfwMakeContextCurrent(window);
     glfwSetFramebufferSizeCallback(window,
-                                   DisplayManager::framebuffer_size_callback);
+                                   DisplayManager::framebufferSizeCallback);
 
     return window;
 }
@@ -105,8 +105,8 @@ void DisplayManager::MessageCallback(GLenum source __attribute__((unused)),
  * @param width The new width of the window.
  * @param height The new height of the window.
  */
-void DisplayManager::framebuffer_size_callback(
-        GLFWwindow* window __attribute__((unused)),
+void DisplayManager::framebufferSizeCallback(
+        GLFWwindow *window __attribute__((unused)),
         int width, int height)
 {
     // make sure the viewport matches the new window dimensions;

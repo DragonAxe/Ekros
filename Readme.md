@@ -1,25 +1,87 @@
 # CSE 389 Museum project
 
+## Update: March 17th, 2018
+### Assimp model loader:
+We have finished the `assimp` model loader (at least the part we need so far)!
+Currently, we can import vertex data and indices data from `assimp`
+data structure.
+
+### Indexed rendering system:
+We have also finished the indexed rendering system. Our imported model can
+now be rendered with `glDrawElements` instead of the old `glDrawArrays`.
+This also means we don't have a bunch of weirdly connected vertices being
+rendered because `assimp` doesn't guarantee the order of imported vertices
+will be kept from the file.
+
+### Shader loader and ShaderProgram class:
+Thanks to our new ShaderProgram class, we can now load vertex and
+fragment shaders from an external file! This means we don't have to
+recompile our project every time we change a bit of shader code, and it
+also makes it easier for us to read the shader code because it's not
+wrappend in c++ string quotes.
+
+### Reorganized project structure:
+In addition to all the functioning features above, we have reorganized
+our entire project structure to take better advantage of object
+oriented programming techniques. We have tried to move as many things
+out of `main()` and into their own classes as possible
+(for example the ShaderProgram class).
+
+![Project UML diagram](ProjectUMLDiagram.png)
+
+As you can see above, there are 4 new classes in our project:
+#### 1. DisplayManager
+This class manages the initialization of a window that can be rendered
+to by OpenGL calls. It also sets up some useful debugging error event handlers.
+#### 2. Emodel
+This class manages a single model. It is responsible for importing a model
+from a .obj file, loading it into the GPU, and finally rendering (drawing)
+the model onto the screen.
+#### 3. ShaderProgram
+This abstract class implements all the needed logic for loading a vertex shader
+and fragment shader from text files into the GPU as a shader program.
+#### 4. StaticShader
+This concrete class gives specific details about a shader, such as what files
+to load the vertex and fragment shaders from, and what attributes to
+bind to the shader.
+
+### Screenshots!:
+![Pikachu](Screenshot-Pikachu.png)
+
+### What's next?
+* Occlusion handling. (The Pikachu looks kind of weird right now doesn't he.)
+* Normal handling. (So we don't have to render so many triangles that aren't actually going to be seen.)
+* Perspective camera transformation.
+* Rendering multiple objects at once.
+* More advanced input handling.
+
 ## Update: March 7th, 2018
-We are currently working still working on the model loader in the
+We are currently still working on the model loader in the
 [`model-loader-dev` branch](https://github.com/DragonAxe/Ekros/tree/model-loader-dev)
 
-We are using the `assimp` library for loading models, then converting from the assimp
-scene structure to two arrays, one for vertices and one for indices. The loading of
-the model from the obj file works, converting the assimp scene into the two arrays works,
-but there are problems with loading the model into the GPU and rendering it correctly.
+We are using the `assimp` library for loading models, then converting
+from the assimp scene structure to two arrays, one for vertices and one for
+indices. The loading of the model from the obj file works, converting the
+assimp scene into the two arrays works, but there are problems with loading
+the model into the GPU and rendering it correctly.
 
-What we have been able to figure out so far is that rendering raw vertices as triangles
-using the `glDrawArrays` command works, but rendering the vertices using indices
-via the `glDrawElements` command doesn't work and we haven't had time to investigate
-further.
+What we have been able to figure out so far is that rendering raw vertices
+as triangles using the `glDrawArrays` command works, but rendering the
+vertices using indices via the `glDrawElements` command doesn't work and
+we haven't had time to investigate further.
 
 We have also finished texturing the surrounding objects in our museum set up.
-Below are some screen shots, and are not the final products. They will be touched up and tweaked over time.
+Below are some screen shots, and are not the final products.
+They will be touched up and tweaked over time.
+
 ![Boxes](MuseumModels/boxy.png)
+
 ![Pyramid](MuseumModels/Pyramid.png)
+
 ![Torus knot](MuseumModels/Torus_knot.png)
+
 ![Fence](MuseumModels/fency.png)
+
 ![pointy mountain](MuseumModels/pointymount.png)
 
 ## Update: March 5th, 2018
@@ -35,8 +97,11 @@ rendering a couple of triangles.
 The museum blender model can be found here: [MuseumModels/museum.blend](MuseumModels/museum.blend)
 
 ![Museum Screenshot](MuseumModels/MuseumRender4.png)
+
 ![Museum Screenshot](MuseumModels/MuseumRender3.png)
+
 ![Museum Screenshot](MuseumModels/MuseumRender2.png)
+
 ![Museum Screenshot](MuseumModels/MuseumRender1.png)
 
 ## Update: February 2nd, 2018

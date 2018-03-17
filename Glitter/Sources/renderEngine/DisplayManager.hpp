@@ -27,7 +27,7 @@ private:
     static void MessageCallback(GLenum source, GLenum type, GLuint id,
                                 GLenum severity, GLsizei length,
                                 const GLchar* message, const void* userParam );
-    static void framebuffer_size_callback(GLFWwindow* window,
-                                          int width, int height);
+    static void framebufferSizeCallback(GLFWwindow *window,
+                                        int width, int height);
     static void enableGLDebugging();
 };

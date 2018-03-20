@@ -1,5 +1,12 @@
 <component name="ProjectCodeStyleConfiguration">
   <code_scheme name="Project" version="173">
+    <option name="RIGHT_MARGIN" value="80" />
+    <Objective-C>
+      <option name="NAMESPACE_BRACE_PLACEMENT" value="2" />
+      <option name="FUNCTION_BRACE_PLACEMENT" value="2" />
+      <option name="SPACE_BEFORE_POINTER_IN_DECLARATION" value="false" />
+      <option name="SPACE_AFTER_POINTER_IN_DECLARATION" value="true" />
+    </Objective-C>
     <Objective-C-extensions>
       <file>
         <option name="com.jetbrains.cidr.lang.util.OCDeclarationKind" value="Import" />
@@ -21,9 +28,12 @@
         <option name="com.jetbrains.cidr.lang.util.OCDeclarationKind" value="DeallocMethod" />
       </class>
       <extensions>
-        <pair source="cpp" header="h" fileNamingConvention="NONE" />
-        <pair source="c" header="h" fileNamingConvention="NONE" />
+        <pair source="cpp" header="hpp" fileNamingConvention="NONE" />
       </extensions>
     </Objective-C-extensions>
+    <codeStyleSettings language="ObjectiveC">
+      <option name="LINE_COMMENT_AT_FIRST_COLUMN" value="false" />
+      <option name="CLASS_BRACE_STYLE" value="2" />
+    </codeStyleSettings>
   </code_scheme>
 </component>

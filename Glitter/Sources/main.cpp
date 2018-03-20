@@ -7,6 +7,7 @@
 #include <zconf.h>
 #include <csignal>
 #include <fstream>
+#include <cmath>
 
 #include "Emodel.hpp"
 #include "renderEngine/DisplayManager.hpp"
@@ -14,8 +15,9 @@
 
 
 void handler(int sig);
-void processInput(GLFWwindow* window);
+void key_callback(GLFWwindow* window, int key, int scancode, int action, int mods);
 
+int state = 0;
 
 int main()
 {
@@ -27,20 +29,21 @@ int main()
     StaticShader shader = StaticShader();
 
     // Load a new model from .obj file
-    Emodel* triangles = new Emodel("MuseumModels/objs/Pikachu.obj");
+    Emodel* pikachu = new Emodel("MuseumModels/objs/Pikachu.obj");
+    Emodel* tree = new Emodel("MuseumModels/objs/Tree.obj");
+    Emodel* monkey = new Emodel("MuseumModels/objs/Suzanne.obj");
 
-    // uncomment this call to draw in wireframe polygons.
+    // uncomment this call to draw in wireframe polygons
     //glPolygonMode(GL_FRONT_AND_BACK, GL_LINE);
 
     GLfloat xyzRot[] = {0.0, 0.0, 0.0};
 
+    //Handle key presses via callback
+    glfwSetKeyCallback(window, key_callback);
+
     // render loop
     // -----------
     while(!glfwWindowShouldClose(window)){
-
-        // input
-        // -----
-        processInput(window);
 
         // render
         // ------
@@ -55,7 +58,19 @@ int main()
             glUniform3fv(xyzRotLoc, 1, xyzRot);
             xyzRot[1] += 0.5;
 
-            triangles->draw();
+            switch(state){
+                case 0:
+                    tree->draw();
+                    break;
+                case 1:
+                    pikachu->draw();
+                    break;
+                case 2:
+                    monkey->draw();
+                    break;
+
+            }
+
         }
         shader.stop();
 
@@ -65,7 +80,7 @@ int main()
         glfwPollEvents();
     }
 
-    delete triangles;
+    delete pikachu;
 
     return 0;
 }
@@ -94,10 +109,23 @@ void handler(int sig)
  * this frame and react accordingly
  *
  * @param window
+ * @param key
+ * @param scancode
+ * @param action
+ * @param mods
  */
-void processInput(GLFWwindow* window)
+void key_callback(GLFWwindow* window __attribute__((unused)), int key, int scancode __attribute__((unused)), int action, int mods __attribute__((unused)))
 {
-    if(glfwGetKey(window, GLFW_KEY_ESCAPE) == GLFW_PRESS){
-        glfwSetWindowShouldClose(window, true);
+    if (key == GLFW_KEY_ESCAPE && action == GLFW_PRESS)
+        exit(EXIT_SUCCESS);
+
+    if (key == GLFW_KEY_RIGHT && action == GLFW_PRESS){
+        state = (state + 1) % 3;
     }
+
+    if (key == GLFW_KEY_LEFT && action == GLFW_PRESS){
+        state = abs((state - 1) % 3;
+    }
+    std::cout << "blaw=" << state << std::endl;
+
 }

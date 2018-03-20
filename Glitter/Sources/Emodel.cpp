@@ -58,7 +58,7 @@ bool Emodel::loadFromObj()
     mNumFaces = 0;
 
 
-    printf("Mesh count=%d\n", model_data->mNumMeshes);
+    //printf("Mesh count=%d\n", model_data->mNumMeshes);
 
     // Assimp separates each group of faces that use the same material
     // into different meshes. This loop combines them into a single
@@ -89,7 +89,7 @@ bool Emodel::loadFromObj()
     }
 
     // Print out vertex statistics
-    std::cout << "Verts: ";
+    /*std::cout << "Verts: ";
     std::cout << "size=" << verts->size() << " fNum=" << mNumVerticies << " " << std::endl;
     for (unsigned int i = 0; i < verts->size(); i++) {
         std::cout << verts->data()[i] << ",";
@@ -103,6 +103,7 @@ bool Emodel::loadFromObj()
         std::cout << faces->data()[i] << ",";
     }
     std::cout << std::endl;
+    */
 
     return true; // Success
 }

@@ -124,8 +124,11 @@ void key_callback(GLFWwindow* window __attribute__((unused)), int key, int scanc
     }
 
     if (key == GLFW_KEY_LEFT && action == GLFW_PRESS){
-        state = abs((state - 1) % 3;
+        if (state == 0) {
+            state = 2;
+        }
+        else {
+            state = (state - 1) % 3;
+        }
     }
-    std::cout << "blaw=" << state << std::endl;
-
 }

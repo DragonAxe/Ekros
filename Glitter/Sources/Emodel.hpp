@@ -22,6 +22,7 @@ class Emodel
 private:
     // Methods
     bool loadFromObj();
+
     void loadToGPU();
 
     // Attributes
@@ -33,14 +34,16 @@ private:
     GLuint indexVBO;
 
     // Assimp attributes
-    std::vector<float> * verts;
+    std::vector<float>* verts;
     unsigned int mNumVerticies;
-    std::vector<unsigned int> * faces;
+    std::vector<unsigned int>* faces;
     unsigned int mNumFaces;
 
 public:
     // Methods
     Emodel(std::string);
+
     void draw();
+
     ~Emodel(); // Deconstructor
 };

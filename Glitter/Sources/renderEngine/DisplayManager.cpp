@@ -40,7 +40,7 @@ GLFWwindow* DisplayManager::initializeGLFWwindow()
                                           WINDOW_TITLE,
                                           NULL,  // monitor
                                           NULL); // share
-    if(window == nullptr){
+    if (window == nullptr) {
         glfwTerminate();
         throw std::runtime_error("Failed to create GLFW window");
     }
@@ -60,7 +60,7 @@ void DisplayManager::initializeGLAD()
 {
     // glad: load all OpenGL function pointers
     // ---------------------------------------
-    if(!gladLoadGLLoader((GLADloadproc)glfwGetProcAddress)){
+    if (!gladLoadGLLoader((GLADloadproc) glfwGetProcAddress)) {
         throw std::runtime_error("Failed to initialize GLAD");
     }
 }
@@ -70,8 +70,8 @@ void DisplayManager::initializeGLAD()
  */
 void DisplayManager::enableGLDebugging()
 {
-    glEnable              ( GL_DEBUG_OUTPUT );
-    glDebugMessageCallback( (GLDEBUGPROC) DisplayManager::MessageCallback, 0 );
+    glEnable(GL_DEBUG_OUTPUT);
+    glDebugMessageCallback((GLDEBUGPROC) DisplayManager::MessageCallback, 0);
 }
 
 /**
@@ -87,12 +87,12 @@ void DisplayManager::enableGLDebugging()
  * @param userParam
  */
 void DisplayManager::MessageCallback(GLenum source __attribute__((unused)),
-                      GLenum type,
-                      GLuint id __attribute__((unused)),
-                      GLenum severity,
-                      GLsizei length __attribute__((unused)),
-                      const GLchar* message,
-                      const void* userParam __attribute__((unused)))
+                                     GLenum type,
+                                     GLuint id __attribute__((unused)),
+                                     GLenum severity,
+                                     GLsizei length __attribute__((unused)),
+                                     const GLchar* message,
+                                     const void* userParam __attribute__((unused)))
 {
     fprintf(stderr,
             "GL CALLBACK: %s type = 0x%x, severity = 0x%x, message = %s\n",
@@ -109,7 +109,7 @@ void DisplayManager::MessageCallback(GLenum source __attribute__((unused)),
  * @param height The new height of the window.
  */
 void DisplayManager::framebufferSizeCallback(
-        GLFWwindow *window __attribute__((unused)),
+        GLFWwindow* window __attribute__((unused)),
         int width, int height)
 {
     // make sure the viewport matches the new window dimensions;
@@ -131,7 +131,6 @@ GLFWwindow* DisplayManager::getWindow()
     }
     return this->window;
 }
-
 
 
 DisplayManager::~DisplayManager()

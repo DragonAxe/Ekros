@@ -33,15 +33,16 @@ bool Emodel::loadFromObj()
     // probably to request more postprocessing than we do in this example.
     // Note: The loaded data is managed by the importer and will be freed
     // once the importer is deconstructed.
-    const aiScene* model_data = importer.ReadFile( this->filename,
-                                              aiProcess_CalcTangentSpace       |
-                                              aiProcess_Triangulate            |
-                                              aiProcess_JoinIdenticalVertices  |
-                                              aiProcess_SortByPType);
+    const aiScene* model_data = importer.ReadFile(this->filename,
+                                                  aiProcess_CalcTangentSpace |
+                                                  aiProcess_Triangulate |
+                                                  aiProcess_JoinIdenticalVertices |
+                                                  aiProcess_SortByPType);
 
     // If the import failed, report it
     if (!model_data) {
-        std::cout << "ERROR:ASSIMP:MODEL_IMPORT:\n" << importer.GetErrorString() << std::endl;
+        std::cout << "ERROR:ASSIMP:MODEL_IMPORT:\n" << importer.GetErrorString()
+                  << std::endl;
         return false;
     }
     // Now we can access the file's contents.
@@ -63,7 +64,8 @@ bool Emodel::loadFromObj()
     // Assimp separates each group of faces that use the same material
     // into different meshes. This loop combines them into a single
     // flat array for vertices and indices (faces).
-    for (unsigned int mesh_index = 0; mesh_index < model_data->mNumMeshes; mesh_index++) {
+    for (unsigned int mesh_index = 0;
+         mesh_index < model_data->mNumMeshes; mesh_index++) {
         aiMesh* mesh = model_data->mMeshes[mesh_index];
 
         // Add the x,y,z of each vertex to a flat array
@@ -79,9 +81,9 @@ bool Emodel::loadFromObj()
             // Each face index restarts at zero for each Assimp mesh,
             // so we must add an offset of the number of vertices that
             // have been added so far to our flat array.
-            faces->push_back(face->mIndices[0]+mNumVerticies);
-            faces->push_back(face->mIndices[1]+mNumVerticies);
-            faces->push_back(face->mIndices[2]+mNumVerticies);
+            faces->push_back(face->mIndices[0] + mNumVerticies);
+            faces->push_back(face->mIndices[1] + mNumVerticies);
+            faces->push_back(face->mIndices[2] + mNumVerticies);
         }
 
         mNumVerticies += mesh->mNumVertices;
@@ -150,8 +152,11 @@ void Emodel::loadToGPU()
         glBindBuffer(GL_ELEMENT_ARRAY_BUFFER, indexVBO);
 
         // Load the vertices into the Vertex Buffered Object
-        glBufferData(GL_ARRAY_BUFFER, (verts->size())*sizeof(float), verts->data(), GL_STATIC_DRAW);
-        glBufferData(GL_ELEMENT_ARRAY_BUFFER, faces->size() * sizeof(unsigned int), faces->data(), GL_STATIC_DRAW);
+        glBufferData(GL_ARRAY_BUFFER, (verts->size()) * sizeof(float),
+                     verts->data(), GL_STATIC_DRAW);
+        glBufferData(GL_ELEMENT_ARRAY_BUFFER,
+                     faces->size() * sizeof(unsigned int), faces->data(),
+                     GL_STATIC_DRAW);
 
         // Set the attributes of the loaded buffer data
         glVertexAttribPointer(0,          // index in VAO to store this buffer
@@ -159,10 +164,11 @@ void Emodel::loadToGPU()
                               GL_FLOAT,   // type
                               GL_FALSE,   // normalized
                               0,          // stride
-                              (void *)0); // pointer to a value in the buffer
+                              (void*) 0); // pointer to a value in the buffer
 
         // Enable the attributes we just set for this Vertex Buffered Object
-        glEnableVertexAttribArray(0); // 0, the index we set above in glVertexAttribPointer
+        glEnableVertexAttribArray(
+                0); // 0, the index we set above in glVertexAttribPointer
     }
     glBindVertexArray(0);
 }
@@ -179,7 +185,7 @@ void Emodel::draw()
     glBindVertexArray(this->vao);
 
     // Render our model using indices instead of raw vertices
-    glDrawElements(GL_TRIANGLES, faces->size(), GL_UNSIGNED_INT, (void*)0);
+    glDrawElements(GL_TRIANGLES, faces->size(), GL_UNSIGNED_INT, (void*) 0);
 
     // glBindVertexArray(0); // no need to unbind it every time
 }

@@ -109,8 +109,7 @@ ShaderProgram::loadShader(std::string file, GLenum shaderType)
 
     // Check for shader compile errors
     glGetShaderiv(shader, GL_COMPILE_STATUS, &success);
-    if (!success)
-    {
+    if (!success) {
         glGetShaderInfoLog(shader, 512, NULL, infoLog);
         std::ostringstream errorStr;
         errorStr << "Shader compilation failed:" << infoLog << std::endl;

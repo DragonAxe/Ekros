@@ -17,18 +17,25 @@ class ShaderProgram
 {
 public:
     ShaderProgram(std::string vertexFile, std::string fragmentFile);
+
     void start();
+
     void stop();
+
     ~ShaderProgram();
+
     GLuint shaderProgramID; // Temporarily public to allow for shader inputs
 
 protected:
     virtual void bindAttributes() = 0;
+
     void init();
+
     void bindAttribute(GLuint attribute, std::string variableName);
 
 private:
     GLuint vertexShaderID;
     GLuint fragmentShaderID;
+
     GLuint loadShader(std::string file, GLenum shaderType);
 };

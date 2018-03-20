@@ -15,7 +15,9 @@
 
 
 void handler(int sig);
-void key_callback(GLFWwindow* window, int key, int scancode, int action, int mods);
+
+void
+key_callback(GLFWwindow* window, int key, int scancode, int action, int mods);
 
 int state = 0;
 
@@ -43,7 +45,7 @@ int main()
 
     // render loop
     // -----------
-    while(!glfwWindowShouldClose(window)){
+    while (!glfwWindowShouldClose(window)) {
 
         // render
         // ------
@@ -57,7 +59,7 @@ int main()
             glUniform3fv(xyzRotLoc, 1, xyzRot);
             xyzRot[1] += 0.5;
 
-            switch(state){
+            switch (state) {
                 case 0:
                     tree->draw();
                     break;
@@ -91,7 +93,7 @@ int main()
  */
 void handler(int sig)
 {
-    void *array[10];
+    void* array[10];
     int size;
 
     // get void*'s for all entries on the stack
@@ -113,20 +115,21 @@ void handler(int sig)
  * @param action
  * @param mods
  */
-void key_callback(GLFWwindow* window __attribute__((unused)), int key, int scancode __attribute__((unused)), int action, int mods __attribute__((unused)))
+void key_callback(GLFWwindow* window __attribute__((unused)), int key,
+                  int scancode __attribute__((unused)), int action,
+                  int mods __attribute__((unused)))
 {
     if (key == GLFW_KEY_ESCAPE && action == GLFW_PRESS)
         exit(EXIT_SUCCESS);
 
-    if (key == GLFW_KEY_RIGHT && action == GLFW_PRESS){
+    if (key == GLFW_KEY_RIGHT && action == GLFW_PRESS) {
         state = (state + 1) % 3;
     }
 
-    if (key == GLFW_KEY_LEFT && action == GLFW_PRESS){
+    if (key == GLFW_KEY_LEFT && action == GLFW_PRESS) {
         if (state == 0) {
             state = 2;
-        }
-        else {
+        } else {
             state = (state - 1) % 3;
         }
     }

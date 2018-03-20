@@ -14,20 +14,28 @@ class DisplayManager
 {
 public:
     DisplayManager();
+
     GLFWwindow* getWindow();
+
     ~DisplayManager();
+
 private:
     static const constexpr char* WINDOW_TITLE = "Mckenna_Reece Triangle";
     static const unsigned int SCR_WIDTH = 800;
     static const unsigned int SCR_HEIGHT = 600;
 
     GLFWwindow* window = nullptr;
+
     static GLFWwindow* initializeGLFWwindow();
+
     static void initializeGLAD();
+
     static void MessageCallback(GLenum source, GLenum type, GLuint id,
                                 GLenum severity, GLsizei length,
-                                const GLchar* message, const void* userParam );
-    static void framebufferSizeCallback(GLFWwindow *window,
+                                const GLchar* message, const void* userParam);
+
+    static void framebufferSizeCallback(GLFWwindow* window,
                                         int width, int height);
+
     static void enableGLDebugging();
 };

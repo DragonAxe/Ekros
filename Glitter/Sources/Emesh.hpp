@@ -10,7 +10,6 @@
 #include <glad/glad.h>
 #include <GLFW/glfw3.h>
 
-#include "Emesh.hpp"
 /**
  * This class represents a model that is loaded from an obj file, loaded into
  * the GPU, then rendered.
@@ -18,11 +17,13 @@
  * To load a model, simply instanciate this class with the 'new' keyword.
  * You can 'delete' this class once you are done to free up GPU memory.
  */
-class Emodel
+class Emesh
 {
 private:
     // Methods
-    bool loadFromObj();
+    bool loadFromObj(const aiScene* scene, unsigned int index);
+
+    void loadToGPU();
 
     // Attributes
     std::string filename;
@@ -31,7 +32,6 @@ private:
     GLuint vbo = 0;
     GLsizei vboSize = 0;
     GLuint indexVBO;
-    std::vector<Emesh*> multiMesh;
 
     // Assimp attributes
     std::vector<float>* verts;
@@ -41,9 +41,9 @@ private:
 
 public:
     // Methods
-    Emodel(std::string);
+    Emesh(const aiScene* scene, unsigned int index);
 
     void draw();
 
-    ~Emodel(); // Deconstructor
+    ~Emesh(); // Deconstructor
 };

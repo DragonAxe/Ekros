@@ -1,4 +1,15 @@
-# CSE 389 Museum project
+CSE 389 Museum project
+
+## Update: March 29th, 2018 
+### Emesh and Emodel loader seperation:
+We hav esuccesfully refactored our code to properly load multimesh objects.
+Now we can start to mess with the texture loader and getting our full model loaded in with a camera.
+
+### TODO:
+Load in 'full' museum model and the surrounding terrain
+start loading in Textures and the various mappings to each object.
+Get the Camera set up so one can move around the camera.
+Get the camera to render in Perspective mode.
 
 ## Update: March 17th, 2018
 ### Assimp model loader:

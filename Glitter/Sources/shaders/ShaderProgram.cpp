@@ -69,6 +69,23 @@ void ShaderProgram::stop()
 }
 
 /**
+ * Gets the location of the given uniform for this shader.
+ *
+ * @param uniformName The name of the uniform given as a string.
+ * @return The OpenGL location of this uniform.
+ */
+GLint ShaderProgram::getUniformLoc(std::string uniformName)
+{
+    GLint loc = glGetUniformLocation(shaderProgramID, uniformName.c_str());
+    if (loc == -1) {
+        std::ostringstream errStr;
+        errStr << "Uniform not found: " << uniformName << std::endl;
+        throw std::runtime_error(errStr.str());
+    }
+    return loc;
+}
+
+/**
  * A helper method for subclasses to call glBindAttribLocation
  * using this program's ID.
  *

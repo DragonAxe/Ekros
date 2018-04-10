@@ -33,25 +33,25 @@ bool Emesh::loadFromObj(const aiScene* scene, unsigned int index)
     // into different meshes. This loop combines them into a single
     // flat array for vertices and indices (faces).
 
-        const aiMesh* mesh = scene->mMeshes[index];
+    const aiMesh* mesh = scene->mMeshes[index];
 
-        // Add the x,y,z of each vertex to a flat array
-        for (unsigned int i = 0; i < mesh->mNumVertices; i++) {
-            verts->push_back(mesh->mVertices[i].x);
-            verts->push_back(mesh->mVertices[i].y);
-            verts->push_back(mesh->mVertices[i].z);
-        }
+    // Add the x,y,z of each vertex to a flat array
+    for (unsigned int i = 0; i < mesh->mNumVertices; i++) {
+        verts->push_back(mesh->mVertices[i].x);
+        verts->push_back(mesh->mVertices[i].y);
+        verts->push_back(mesh->mVertices[i].z);
+    }
 
-        // Add the indices of each face (made up of 3 vertices because it's a triangle)) to a flat array
-        for (unsigned int i = 0; i < mesh->mNumFaces; i++) {
-            aiFace* face = &(mesh->mFaces[i]);
-            // Each face index restarts at zero for each Assimp mesh,
-            // so we must add an offset of the number of vertices that
-            // have been added so far to our flat array.
-            faces->push_back(face->mIndices[0]);
-            faces->push_back(face->mIndices[1]);
-            faces->push_back(face->mIndices[2]);
-        }
+    // Add the indices of each face (made up of 3 vertices because it's a triangle)) to a flat array
+    for (unsigned int i = 0; i < mesh->mNumFaces; i++) {
+        aiFace* face = &(mesh->mFaces[i]);
+        // Each face index restarts at zero for each Assimp mesh,
+        // so we must add an offset of the number of vertices that
+        // have been added so far to our flat array.
+        faces->push_back(face->mIndices[0]);
+        faces->push_back(face->mIndices[1]);
+        faces->push_back(face->mIndices[2]);
+    }
 
     // Print out vertex statistics
     /*std::cout << "Verts: ";

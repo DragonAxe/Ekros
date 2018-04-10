@@ -8,9 +8,16 @@ StaticShader::StaticShader()
 {
     // Calls super constructor with VERTEX_FILE and FRAGMENT file
     init(); // Finish Base class construction.
+    xyzrot = getUniformLoc("xyzrot");
 }
 
 void StaticShader::bindAttributes()
 {
     bindAttribute(0, "position");
 }
+
+void StaticShader::setRotation(GLfloat* rot)
+{
+    glUniform3fv(xyzrot, 1, rot);
+}
+

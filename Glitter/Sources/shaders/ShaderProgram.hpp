@@ -24,16 +24,17 @@ public:
 
     ~ShaderProgram();
 
-    GLuint shaderProgramID; // Temporarily public to allow for shader inputs
-
 protected:
     virtual void bindAttributes() = 0;
+
+    GLint getUniformLoc(std::string);
 
     void init();
 
     void bindAttribute(GLuint attribute, std::string variableName);
 
 private:
+    GLuint shaderProgramID;
     GLuint vertexShaderID;
     GLuint fragmentShaderID;
 

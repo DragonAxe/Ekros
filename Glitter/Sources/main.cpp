@@ -19,6 +19,7 @@ void handler(int sig);
 void
 key_callback(GLFWwindow* window, int key, int scancode, int action, int mods);
 
+int modelCount = 0;
 int state = 0;
 
 int main()
@@ -31,9 +32,13 @@ int main()
     StaticShader shader = StaticShader();
 
     // Load a new model from .obj file
+    Emodel* textured = new Emodel("MuseumModels/objs/ISOTextured.obj");
     Emodel* pikachu = new Emodel("MuseumModels/objs/Pikachu.obj");
     Emodel* tree = new Emodel("MuseumModels/objs/Tree.obj");
     Emodel* monkey = new Emodel("MuseumModels/objs/Suzanne.obj");
+    modelCount = 4;
+
+    Emodel* models[] = {textured, tree, pikachu, monkey};
 
     // uncomment this call to draw in wireframe polygons
     //glPolygonMode(GL_FRONT_AND_BACK, GL_LINE);
@@ -53,30 +58,16 @@ int main()
 
         shader.start();
         {
-            // Hacked on code to allow inputs to the vertex shader program
-            GLint xyzRotLoc = glGetUniformLocation(shader.shaderProgramID,
-                                                   "xyzrot");
-            glUniform3fv(xyzRotLoc, 1, xyzRot);
+            shader.setRotation(xyzRot);
             xyzRot[1] += 0.5;
 
-            switch (state) {
-                case 0:
-                    tree->draw();
-                    break;
-                case 1:
-                    pikachu->draw();
-                    break;
-                case 2:
-                    monkey->draw();
-                    break;
-
-            }
-
+            models[state]->draw();
         }
         shader.stop();
 
-        // glfw: swap buffers and poll IO events (keys pressed/released, mouse moved etc.)
-        // -------------------------------------------------------------------------------
+        // glfw: swap buffers and poll IO events
+        // (keys pressed/released, mouse moved etc.)
+        // -----------------------------------------
         glfwSwapBuffers(window);
         glfwPollEvents();
     }
@@ -123,14 +114,14 @@ void key_callback(GLFWwindow* window __attribute__((unused)), int key,
         exit(EXIT_SUCCESS);
 
     if (key == GLFW_KEY_RIGHT && action == GLFW_PRESS) {
-        state = (state + 1) % 3;
+        state = (state + 1) % modelCount;
     }
 
     if (key == GLFW_KEY_LEFT && action == GLFW_PRESS) {
         if (state == 0) {
-            state = 2;
+            state = modelCount - 1;
         } else {
-            state = (state - 1) % 3;
+            state = (state - 1) % modelCount;
         }
     }
 }

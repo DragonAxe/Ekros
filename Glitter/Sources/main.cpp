@@ -1,6 +1,8 @@
 #include <glad/glad.h>
 #include <GLFW/glfw3.h>
 #include <glm/common.hpp>
+#include <glm/mat4x4.hpp>
+#include <glm/gtc/matrix_transform.hpp>
 
 #include <iostream>
 #include <execinfo.h>
@@ -8,6 +10,8 @@
 #include <csignal>
 #include <fstream>
 #include <cmath>
+#include <glm/glm.hpp>
+#include <glm/gtc/type_ptr.hpp>
 
 #include "Emodel.hpp"
 #include "renderEngine/DisplayManager.hpp"
@@ -58,6 +62,14 @@ int main()
 
         shader.start();
         {
+            glm::mat4 proj = glm::perspective(
+                    glm::radians(90.0f), // Fov in degrees
+                    // Aspect ratio
+                    (float)dm.getWindowWidth() / (float)dm.getWindowHeight(),
+                    0.01f,   // Near fov
+                    1000.f); // Far fov
+            shader.setProjectionMatrix(proj);
+
             shader.setRotation(xyzRot);
             xyzRot[1] += 0.5;
 

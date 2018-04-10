@@ -17,12 +17,18 @@ public:
 
     GLFWwindow* getWindow();
 
+    static int getWindowWidth();
+    static int getWindowHeight();
+
     ~DisplayManager();
 
 private:
     static const constexpr char* WINDOW_TITLE = "Mckenna_Reece Triangle";
     static const unsigned int SCR_WIDTH = 800;
     static const unsigned int SCR_HEIGHT = 600;
+
+    static int windowWidth;
+    static int windowHeight;
 
     GLFWwindow* window = nullptr;
 

@@ -115,8 +115,13 @@ void DisplayManager::framebufferSizeCallback(
     // make sure the viewport matches the new window dimensions;
     // Note that width and height will be significantly larger than specified
     // on retina displays.
+    windowWidth = width;
+    windowHeight = height;
     glViewport(0, 0, width, height);
 }
+
+int DisplayManager::windowWidth = SCR_WIDTH;
+int DisplayManager::windowHeight = SCR_HEIGHT;
 
 /**
  * Returns the initialized window, or throws an error if uninitialized.
@@ -130,6 +135,17 @@ GLFWwindow* DisplayManager::getWindow()
         throw std::runtime_error("Window is not initialized");
     }
     return this->window;
+}
+
+
+int DisplayManager::getWindowWidth()
+{
+    return windowWidth;
+}
+
+int DisplayManager::getWindowHeight()
+{
+    return windowHeight;
 }
 
 

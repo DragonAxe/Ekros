@@ -10,8 +10,7 @@ StaticShader::StaticShader()
     init(); // Finish Base class construction.
 
     // Get uniform variables
-    xyzrot = getUniformLoc("xyzrot");
-    projectionMatrix = getUniformLoc("projectionMatrix");
+    projectionMatrix = getUniformLoc("everythingMatrix");
 }
 
 void StaticShader::bindAttributes()
@@ -19,12 +18,7 @@ void StaticShader::bindAttributes()
     bindAttribute(0, "position");
 }
 
-void StaticShader::setRotation(GLfloat rot[3])
-{
-    glUniform3fv(xyzrot, 1, rot);
-}
-
-void StaticShader::setProjectionMatrix(glm::mat4 matrix)
+void StaticShader::setEverythingMatrix(glm::mat4 matrix)
 {
     glUniformMatrix4fv(projectionMatrix, // Uniform location
                        1,        // Number of matricies

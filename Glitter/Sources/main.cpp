@@ -13,18 +13,21 @@
 #include <glm/glm.hpp>
 #include <glm/gtc/type_ptr.hpp>
 
-#include "Emodel.hpp"
+#include "model/Emodel.hpp"
 #include "renderEngine/DisplayManager.hpp"
 #include "shaders/StaticShader.hpp"
-
+#include "Camera.cpp"
 
 void handler(int sig);
 
 void
 key_callback(GLFWwindow* window, int key, int scancode, int action, int mods);
 
+void mouse_callback(GLFWwindow* window, double xpos, double ypos);
+
 int modelCount = 0;
 int state = 0;
+Camera camera;
 
 int main()
 {
@@ -36,21 +39,28 @@ int main()
     StaticShader shader = StaticShader();
 
     // Load a new model from .obj file
-    Emodel* textured = new Emodel("MuseumModels/objs/ISOTextured.obj");
-    Emodel* pikachu = new Emodel("MuseumModels/objs/Pikachu.obj");
-    Emodel* tree = new Emodel("MuseumModels/objs/Tree.obj");
-    Emodel* monkey = new Emodel("MuseumModels/objs/Suzanne.obj");
-    modelCount = 4;
+    Emodel* textured = new Emodel("MuseumModels/museum/museum.obj",
+                                  &shader,
+                                  glm::vec3(1, 0, 1));
+    Emodel* pikachu = new Emodel("MuseumModels/objs/Pikachu.obj",
+                                 &shader,
+                                 glm::vec3(-1, 0, 1));
+    Emodel* tree = new Emodel("MuseumModels/objs/Tree.obj",
+                              &shader,
+                              glm::vec3(-1, 0, -1));
+    Emodel* monkey = new Emodel("MuseumModels/objs/Suzanne.obj",
+                                &shader,
+                                glm::vec3(1, 0, -1));
 
-    Emodel* models[] = {textured, tree, pikachu, monkey};
+    camera = Camera();
+
 
     // uncomment this call to draw in wireframe polygons
     //glPolygonMode(GL_FRONT_AND_BACK, GL_LINE);
 
-    GLfloat xyzRot[] = {0.0, 0.0, 0.0};
-
     //Handle key presses via callback
     glfwSetKeyCallback(window, key_callback);
+    glfwSetCursorPosCallback(window, mouse_callback);
 
     // render loop
     // -----------
@@ -60,28 +70,18 @@ int main()
         // ------
         glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
 
-        shader.start();
-        {
-            glm::mat4 proj = glm::perspective(
-                    glm::radians(90.0f), // Fov in degrees
-                    // Aspect ratio
-                    (float)dm.getWindowWidth() / (float)dm.getWindowHeight(),
-                    0.01f,   // Near fov
-                    1000.f); // Far fov
-            shader.setProjectionMatrix(proj);
-
-            shader.setRotation(xyzRot);
-            xyzRot[1] += 0.5;
-
-            models[state]->draw();
-        }
-        shader.stop();
+        textured->draw(camera);
+        pikachu->draw(camera);
+        tree->draw(camera);
+        monkey->draw(camera);
 
         // glfw: swap buffers and poll IO events
         // (keys pressed/released, mouse moved etc.)
         // -----------------------------------------
         glfwSwapBuffers(window);
         glfwPollEvents();
+
+        camera.update();
     }
 
     delete pikachu;
@@ -122,6 +122,8 @@ void key_callback(GLFWwindow* window __attribute__((unused)), int key,
                   int scancode __attribute__((unused)), int action,
                   int mods __attribute__((unused)))
 {
+    camera.keyCallback(window, key, scancode, action, mods);
+
     if (key == GLFW_KEY_ESCAPE && action == GLFW_PRESS)
         exit(EXIT_SUCCESS);
 
@@ -136,4 +138,10 @@ void key_callback(GLFWwindow* window __attribute__((unused)), int key,
             state = (state - 1) % modelCount;
         }
     }
+}
+
+
+void mouse_callback(GLFWwindow* window, double xpos, double ypos)
+{
+    camera.mouseCallback(window, xpos, ypos);
 }

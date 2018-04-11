@@ -10,8 +10,7 @@ class StaticShader : public ShaderProgram
 {
 public:
     StaticShader();
-    void setRotation(GLfloat rot[3]);
-    void setProjectionMatrix(glm::mat4 matrix);
+    void setEverythingMatrix(glm::mat4 matrix);
 
 protected:
     void bindAttributes();

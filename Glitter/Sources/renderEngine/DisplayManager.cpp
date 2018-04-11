@@ -45,6 +45,7 @@ GLFWwindow* DisplayManager::initializeGLFWwindow()
         throw std::runtime_error("Failed to create GLFW window");
     }
     glfwMakeContextCurrent(window);
+    glfwSetInputMode(window, GLFW_CURSOR, GLFW_CURSOR_DISABLED);
     glfwSetFramebufferSizeCallback(window,
                                    DisplayManager::framebufferSizeCallback);
 

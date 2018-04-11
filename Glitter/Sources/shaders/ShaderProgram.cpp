@@ -79,9 +79,9 @@ GLint ShaderProgram::getUniformLoc(std::string uniformName)
     GLint loc = glGetUniformLocation(shaderProgramID, uniformName.c_str());
     if (loc == -1) {
         std::ostringstream errStr;
-        errStr << "WARN: Uniform not found in shader: " << uniformName << std::endl;
+        errStr << "WARN: Uniform not found in shader: "
+               << uniformName << std::endl;
         std::cerr << errStr.str();
-        //throw std::runtime_error(errStr.str());
     }
     return loc;
 }

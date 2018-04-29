@@ -10,7 +10,10 @@ class StaticShader : public ShaderProgram
 {
 public:
     StaticShader();
+
     void setEverythingMatrix(glm::mat4 matrix);
+
+    void setHasTexture(bool hasTexture);
 
 protected:
     void bindAttributes();
@@ -22,4 +25,5 @@ private:
     // Shader uniform parameters
     GLint xyzrot;
     GLint projectionMatrix;
+    GLint hasTextureBool;
 };

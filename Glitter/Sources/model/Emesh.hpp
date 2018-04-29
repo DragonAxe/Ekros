@@ -10,6 +10,11 @@
 #include <glad/glad.h>
 #include <GLFW/glfw3.h>
 
+#include "stb_image.h"
+
+#include "../apathy/path.hpp"
+#include "../shaders/StaticShader.hpp"
+
 /**
  * This class represents a model that is loaded from an obj file, loaded into
  * the GPU, then rendered.
@@ -19,8 +24,18 @@
  */
 class Emesh
 {
+public:
+    // Methods
+    Emesh(const aiScene* scene, unsigned int index, std::string filename);
+
+    void draw(StaticShader* shader);
+
+    ~Emesh(); // Deconstructor
+
 private:
     // Methods
+    void assimpMeshInfo(const aiScene* scene, unsigned int index);
+
     bool loadFromObj(const aiScene* scene, unsigned int index);
 
     void loadToGPU();
@@ -36,14 +51,12 @@ private:
     // Assimp attributes
     std::vector<float>* verts;
     unsigned int mNumVerticies;
+
+    bool hasTexture = false;
+    std::string texturePath;
+    unsigned int texture;
+
+    std::vector<float>* uvs;
     std::vector<unsigned int>* faces;
     unsigned int mNumFaces;
-
-public:
-    // Methods
-    Emesh(const aiScene* scene, unsigned int index);
-
-    void draw();
-
-    ~Emesh(); // Deconstructor
 };

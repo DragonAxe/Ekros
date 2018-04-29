@@ -18,6 +18,12 @@
 #include "shaders/StaticShader.hpp"
 #include "Camera.cpp"
 
+// stb_image.h must be included at least once in a .cpp file. See:
+// https://stackoverflow.com/questions/43348798/double-inclusion-and-headers-only-library-stbi-image
+#define STB_IMAGE_IMPLEMENTATION
+
+#include "stb_image.h"
+
 void handler(int sig);
 
 void
@@ -39,18 +45,21 @@ int main()
     StaticShader shader = StaticShader();
 
     // Load a new model from .obj file
-    Emodel* textured = new Emodel("MuseumModels/museum/museum.obj",
-                                  &shader,
-                                  glm::vec3(1, 0, 1));
-    Emodel* pikachu = new Emodel("MuseumModels/objs/Pikachu.obj",
-                                 &shader,
-                                 glm::vec3(-1, 0, 1));
-    Emodel* tree = new Emodel("MuseumModels/objs/Tree.obj",
-                              &shader,
-                              glm::vec3(-1, 0, -1));
-    Emodel* monkey = new Emodel("MuseumModels/objs/Suzanne.obj",
-                                &shader,
-                                glm::vec3(1, 0, -1));
+    Emodel textured = Emodel("MuseumModels/objs/CubeTextured.obj",
+                             &shader,
+                             glm::vec3(3, 0, -3));
+    Emodel museum = Emodel("MuseumModels/museum/museum.obj",
+                           &shader,
+                           glm::vec3(0, -1.5, 1));
+    Emodel pikachu = Emodel("MuseumModels/objs/Pikachu.obj",
+                            &shader,
+                            glm::vec3(1, 0, -3));
+    Emodel tree = Emodel("MuseumModels/objs/Tree.obj",
+                         &shader,
+                         glm::vec3(-1, 0, -3));
+    Emodel monkey = Emodel("MuseumModels/objs/Suzanne.obj",
+                           &shader,
+                           glm::vec3(-3, 0, -3));
 
     camera = Camera();
 
@@ -70,10 +79,11 @@ int main()
         // ------
         glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
 
-        textured->draw(camera);
-        pikachu->draw(camera);
-        tree->draw(camera);
-        monkey->draw(camera);
+        textured.draw(camera);
+        museum.draw(camera);
+        pikachu.draw(camera);
+        tree.draw(camera);
+        monkey.draw(camera);
 
         // glfw: swap buffers and poll IO events
         // (keys pressed/released, mouse moved etc.)
@@ -83,8 +93,6 @@ int main()
 
         camera.update();
     }
-
-    delete pikachu;
 
     return 0;
 }
@@ -109,14 +117,7 @@ void handler(int sig)
 }
 
 /**
- * process all input: query GLFW whether relevant keys are pressed/released
- * this frame and react accordingly
- *
- * @param window
- * @param key
- * @param scancode
- * @param action
- * @param mods
+ * Process all keyboard input. This is a GLFW callback function.
  */
 void key_callback(GLFWwindow* window __attribute__((unused)), int key,
                   int scancode __attribute__((unused)), int action,
@@ -126,21 +127,11 @@ void key_callback(GLFWwindow* window __attribute__((unused)), int key,
 
     if (key == GLFW_KEY_ESCAPE && action == GLFW_PRESS)
         exit(EXIT_SUCCESS);
-
-    if (key == GLFW_KEY_RIGHT && action == GLFW_PRESS) {
-        state = (state + 1) % modelCount;
-    }
-
-    if (key == GLFW_KEY_LEFT && action == GLFW_PRESS) {
-        if (state == 0) {
-            state = modelCount - 1;
-        } else {
-            state = (state - 1) % modelCount;
-        }
-    }
 }
 
-
+/**
+ * Process all mouse motion input. This is a GLFW callback function.
+ */
 void mouse_callback(GLFWwindow* window, double xpos, double ypos)
 {
     camera.mouseCallback(window, xpos, ypos);

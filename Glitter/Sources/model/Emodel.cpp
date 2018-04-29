@@ -61,7 +61,7 @@ bool Emodel::loadFromObj()
     for (unsigned int mesh_index = 0;
          mesh_index < model_data->mNumMeshes; mesh_index++) {
 
-        Emesh* newMesh = new Emesh(model_data, mesh_index);
+        Emesh* newMesh = new Emesh(model_data, mesh_index, this->filename);
 
         multiMesh.push_back(newMesh);
     }
@@ -90,7 +90,7 @@ void Emodel::draw(Camera camera)
         for (unsigned int mIndex = 0;
              mIndex < multiMesh.size(); mIndex++) {
 
-            multiMesh[mIndex]->draw();
+            multiMesh[mIndex]->draw(shader);
         }
     }
     shader->stop();

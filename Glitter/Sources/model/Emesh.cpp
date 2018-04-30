@@ -168,7 +168,7 @@ bool Emesh::loadFromObj(const aiScene* scene, unsigned int index)
 
         if (hasTexture) {
             verts->push_back(uvTexArray[i].x);
-            verts->push_back(uvTexArray[i].y);
+            verts->push_back(uvTexArray[i].y * -1);
         } else {
             verts->push_back(0);
             verts->push_back(0);

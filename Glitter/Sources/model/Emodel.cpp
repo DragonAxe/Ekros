@@ -61,9 +61,17 @@ bool Emodel::loadFromObj()
     for (unsigned int mesh_index = 0;
          mesh_index < model_data->mNumMeshes; mesh_index++) {
 
-        Emesh* newMesh = new Emesh(model_data, mesh_index, this->filename);
+        int materialIndex = model_data->mMeshes[mesh_index]->mMaterialIndex;
+        aiMaterial* mat = model_data->mMaterials[materialIndex];
+        aiString name;
+        mat->Get(AI_MATKEY_NAME, name);
+        std::string hiddenName = "hidden_material";
 
-        multiMesh.push_back(newMesh);
+        if (hiddenName != name.C_Str()) {
+            Emesh* newMesh = new Emesh(model_data, mesh_index, this->filename);
+            multiMesh.push_back(newMesh);
+        }
+
     }
 
     return true; // Success

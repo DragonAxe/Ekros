@@ -60,6 +60,9 @@ int main()
     Emodel monkey = Emodel("MuseumModels/objs/Suzanne.obj",
                            &shader,
                            glm::vec3(-3, 0, -3));
+    Emodel isoTextured = Emodel("MuseumModels/objs/ISOTextured.obj",
+                                &shader,
+                                glm::vec3(-5, 0, -3));
 
     camera = Camera();
 
@@ -84,6 +87,7 @@ int main()
         pikachu.draw(camera);
         tree.draw(camera);
         monkey.draw(camera);
+        isoTextured.draw(camera);
 
         // glfw: swap buffers and poll IO events
         // (keys pressed/released, mouse moved etc.)

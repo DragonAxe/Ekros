@@ -63,13 +63,14 @@ public:
                                         0.0, -1.0, 0.0, 0.0,
                                         0.0, 0.0, 1.0, 0.0,
                                         0.0, 0.0, 0.0, 1.0);
-        glm::mat4 reflectedOrientation = (reflectmx * rmx) * (reflectmy * rmy);
+        glm::mat4 reflectedOrientation = (reflectmx * rmx);
+        // * (reflectmy * rmy);
 
         // Calculate axis aligned movement vector from key presses
         glm::vec3 moveVec = glm::vec3();
         moveVec.z += (forwardPressed) ? 1.0f : (backwardPressed) ? -1.0f : 0;
         moveVec.x += (rightPressed) ? 1.0f : (leftPressed) ? -1.0f : 0;
-        moveVec.y += (upPressed) ? 1.0f : (downPressed) ? -1.0f : 0;
+        moveVec.y += (upPressed) ? -1.0f : (downPressed) ? 1.0f : 0;
         moveVec *= 0.1f;
 
         // Move camera by oriented movement vector

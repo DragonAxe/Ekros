@@ -7,6 +7,8 @@
 #include <fstream>
 #include <sstream>
 
+#include "../apathy/path.hpp"
+
 /**
  * An abstract shader program class.
  *

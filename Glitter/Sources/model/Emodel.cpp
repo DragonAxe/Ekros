@@ -48,7 +48,8 @@ bool Emodel::loadFromObj()
             aiProcess_CalcTangentSpace
             | aiProcess_Triangulate
             | aiProcess_JoinIdenticalVertices
-            | aiProcess_SortByPType);
+            | aiProcess_SortByPType
+            | aiProcess_FlipUVs);
 
     // If the import failed, report it
     if (!model_data) {

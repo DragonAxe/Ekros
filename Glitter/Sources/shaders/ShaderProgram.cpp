@@ -110,6 +110,13 @@ ShaderProgram::bindAttribute(GLuint attribute, std::string variableName)
 GLuint
 ShaderProgram::loadShader(std::string file, GLenum shaderType)
 {
+    if (!apathy::Path(file).exists()) {
+        std::ostringstream errorStr;
+        errorStr << "Could not find shader file: "
+                 << apathy::Path(file).absolute().string() << std::endl;
+        throw std::runtime_error(errorStr.str());
+    }
+
     // Load the entire file into a char array
     std::ifstream in(file);
     std::string contents((std::istreambuf_iterator<char>(in)),

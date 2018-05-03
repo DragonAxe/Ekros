@@ -45,24 +45,24 @@ int main()
     StaticShader shader = StaticShader();
 
     // Load a new model from .obj file
-    Emodel textured = Emodel("MuseumModels/objs/CubeTextured.obj",
-                             &shader,
-                             glm::vec3(3, 0, -3));
+    //Emodel textured = Emodel("MuseumModels/objs/CubeTextured.obj",
+    //                         &shader,
+    //                         glm::vec3(3, 0, -3));
     Emodel museum = Emodel("MuseumModels/museum/museum.obj",
                            &shader,
                            glm::vec3(0, -1.5, 1));
-    Emodel pikachu = Emodel("MuseumModels/objs/Pikachu.obj",
-                            &shader,
-                            glm::vec3(1, 0, -3));
-    Emodel tree = Emodel("MuseumModels/objs/Tree.obj",
-                         &shader,
-                         glm::vec3(-1, 0, -3));
-    Emodel monkey = Emodel("MuseumModels/objs/Suzanne.obj",
-                           &shader,
-                           glm::vec3(-3, 0, -3));
-    Emodel isoTextured = Emodel("MuseumModels/objs/ISOTextured.obj",
-                                &shader,
-                                glm::vec3(-5, 0, -3));
+    //Emodel pikachu = Emodel("MuseumModels/objs/Pikachu.obj",
+    //                        &shader,
+    //                        glm::vec3(1, 0, -3));
+    //Emodel tree = Emodel("MuseumModels/objs/Tree.obj",
+    //                     &shader,
+    //                     glm::vec3(-1, 0, -3));
+    //Emodel monkey = Emodel("MuseumModels/objs/Suzanne.obj",
+    //                       &shader,
+    //                       glm::vec3(-3, 0, -3));
+    //Emodel isoTextured = Emodel("MuseumModels/objs/ISOTextured.obj",
+    //                            &shader,
+    //                            glm::vec3(-5, 0, -3));
 
     camera = Camera();
 
@@ -82,12 +82,12 @@ int main()
         // ------
         glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
 
-        textured.draw(camera);
+        //textured.draw(camera);
         museum.draw(camera);
-        pikachu.draw(camera);
-        tree.draw(camera);
-        monkey.draw(camera);
-        isoTextured.draw(camera);
+        //pikachu.draw(camera);
+        //tree.draw(camera);
+        //monkey.draw(camera);
+        //isoTextured.draw(camera);
 
         // glfw: swap buffers and poll IO events
         // (keys pressed/released, mouse moved etc.)

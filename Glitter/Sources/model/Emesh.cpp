@@ -10,6 +10,10 @@
 Emesh::Emesh(const aiScene* scene, unsigned int index, std::string filename)
 {
     this->filename = filename;
+
+    printf(">>>>>> Filename: '%s'\n", this->filename.c_str());
+    printf(">>> Mesh name: '%s'\n", scene->mMeshes[index]->mName.C_Str());
+
     //assimpMeshInfo(scene, index);
     loadFromObj(scene, index);
     loadToGPU();

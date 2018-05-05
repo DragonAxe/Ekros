@@ -50,7 +50,7 @@ int main()
     //                         glm::vec3(3, 0, -3));
     Emodel museum = Emodel("MuseumModels/museum/museum.obj",
                            &shader,
-                           glm::vec3(0, -1.5, 1));
+                           glm::vec3(0, -1.5, -20));
     //Emodel pikachu = Emodel("MuseumModels/objs/Pikachu.obj",
     //                        &shader,
     //                        glm::vec3(1, 0, -3));

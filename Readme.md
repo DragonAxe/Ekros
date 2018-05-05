@@ -1,24 +1,35 @@
 CSE 389 Museum project
 
-## Final update for Project this semester: May 4th, 2018
+## Final update for Project this semester: May the 4th be with you!
 ### It's over, It's done
+Our training is now complete, we have turned to the dark side!
+
 The game is finished, mostly. We had to change our final design and create a separate theme. Our original theme of scanning in students was a little too much given our course work. However, we did complete most of what we set out to. WE completed an outside terrain, multiple outside sculptures, inside sculptures and paintings. The inside of our museum is a rainbow explosion, while the outside is more realistic. As far as textures go, most were procedural textures made with RemingtonGraphics Procedural Graphics pack (under creative commons!)
 
 As far as work we can do in the future:
 The overall game could use some tweaking to make the camera movement a little smoother, we could implement gravity and collision, and work on a little bit more Dynamic lighting and textures as Baking textures is a long process.
 
-To run the game, Clion is the best way, just need to make sure  the current working directory is set in the settings or the Texture file will not be found and it will fail on run. 
+To run the game, Clion is the best way, just need to make sure  the current working directory is set in the settings or the Texture file will not be found and it will fail on run.
 
 Thanks for a great semester!
 
+The following is a Github organization guide for the files in our project:
 
-## LATE Update: April 5th, 2018
+- Museum executable
+  - Executable can be found in the project root directory under the name: "[Ekros](./Ekros)". **Note:** The project must be run directly under the project root directory, otherwise it won't be able to find the shader code, models, and textures.
+- Folder containing project models
+  - All our modes (museum, sculptures, and painting frames) are in a single [blender museum file](./MuseumModels/museum.blend) within the [MuseumModels folder](./MuseumModels).
+- Folder containing textures
+  - All our textures are in the [MuseumModels/museum folder](./MuseumModels/museum)
+
+
+## Update: April 5th, 2018
 ### Boat is sinking, need to patch holes and not abandon ship
 We have been having a tough time finding time to get the kinks fixed in out project. The Object loader is loadig correctly but does weird things with our large models. We hope to get the model loaded in with a camera for movement by next week and the get the textures done the week after. That should be about 90% of the project done. I (Jeriah) am going to try and bake in the lighting into the textures so that we do not have to deal with setting up lighting. If we have time, I would like to set up lighitng instead of the work around so that we can know how to do lighitng. But for now, this is our game plan. Sorry for the late release. S.O.S (boat sinking sounds)
 
-## Update: March 29th, 2018 
+## Update: March 29th, 2018
 ### Emesh and Emodel loader seperation:
-We hav esuccesfully refactored our code to properly load multimesh objects.
+We have succesfully refactored our code to properly load multimesh objects.
 Now we can start to mess with the texture loader and getting our full model loaded in with a camera.
 
 ### TODO:
@@ -101,15 +112,15 @@ We have also finished texturing the surrounding objects in our museum set up.
 Below are some screen shots, and are not the final products.
 They will be touched up and tweaked over time.
 
-![Boxes](MuseumModels/boxy.png)
+![Boxes](Screenshots/Render-Boxy.png)
 
-![Pyramid](MuseumModels/Pyramid.png)
+![Pyramid](Screenshots/Render-Pyramid.png)
 
-![Torus knot](MuseumModels/Torus_knot.png)
+![Torus knot](Screenshots/Render-TorusKnot.png)
 
-![Fence](MuseumModels/fency.png)
+![Fence](Screenshots/Render-Fency.png)
 
-![pointy mountain](MuseumModels/pointymount.png)
+![pointy mountain](Screenshots/Render-PointyMount.png)
 
 ## Update: March 5th, 2018
 We have moved all the code pertaining to loading and rendering a model into a
@@ -123,13 +134,13 @@ rendering a couple of triangles.
 
 The museum blender model can be found here: [MuseumModels/museum.blend](MuseumModels/museum.blend)
 
-![Museum Screenshot](MuseumModels/MuseumRender4.png)
+![Museum Screenshot](Screenshots/MuseumRender4.png)
 
-![Museum Screenshot](MuseumModels/MuseumRender3.png)
+![Museum Screenshot](Screenshots/MuseumRender3.png)
 
-![Museum Screenshot](MuseumModels/MuseumRender2.png)
+![Museum Screenshot](Screenshots/MuseumRender2.png)
 
-![Museum Screenshot](MuseumModels/MuseumRender1.png)
+![Museum Screenshot](Screenshots/MuseumRender1.png)
 
 ## Update: February 2nd, 2018
 

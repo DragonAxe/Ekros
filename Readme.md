@@ -1,5 +1,17 @@
 CSE 389 Museum project
 
+## Final update for Project this semester: May 4th, 2018
+### It's over, It's done
+The game is finished, mostly. We had to change our final design and create a separate theme. Our original theme of scanning in students was a little too much given our course work. However, we did complete most of what we set out to. WE completed an outside terrain, multiple outside sculptures, inside sculptures and paintings. The inside of our museum is a rainbow explosion, while the outside is more realistic. As far as textures go, most were procedural textures made with RemingtonGraphics Procedural Graphics pack (under creative commons!)
+
+As far as work we can do in the future:
+The overall game could use some tweaking to make the camera movement a little smoother, we could implement gravity and collision, and work on a little bit more Dynamic lighting and textures as Baking textures is a long process.
+
+To run the game, Clion is the best way, just need to make sure  the current working directory is set in the settings or the Texture file will not be found and it will fail on run. 
+
+Thanks for a great semester!
+
+
 ## LATE Update: April 5th, 2018
 ### Boat is sinking, need to patch holes and not abandon ship
 We have been having a tough time finding time to get the kinks fixed in out project. The Object loader is loadig correctly but does weird things with our large models. We hope to get the model loaded in with a camera for movement by next week and the get the textures done the week after. That should be about 90% of the project done. I (Jeriah) am going to try and bake in the lighting into the textures so that we do not have to deal with setting up lighting. If we have time, I would like to set up lighitng instead of the work around so that we can know how to do lighitng. But for now, this is our game plan. Sorry for the late release. S.O.S (boat sinking sounds)
